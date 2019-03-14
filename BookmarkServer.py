@@ -55,7 +55,6 @@ class Shortener(http.server.BaseHTTPRequestHandler):
         if name:
             if name in memory:
                 self.send_response(303)
-                # not completed
                 self.send_header('Location', memory[name])
                 self.end_headers()
 
