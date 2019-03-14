@@ -1,45 +1,8 @@
 #!/usr/bin/env python3
 #
-# A *bookmark server* or URI shortener that maintains a mapping (dictionary)
-# between short names and long URIs, checking that each new URI added to the
-# mapping actually works (i.e. returns a 200 OK).
+# A *bookmark server* or URI shortener.
 #
-# This server is intended to serve three kinds of requests:
-#
-#   * A GET request to the / (root) path.  The server returns a form allowing
-#     the user to submit a new name/URI pairing.  The form also includes a
-#     listing of all the known pairings.
-#   * A POST request containing "longuri" and "shortname" fields.  The server
-#     checks that the URI is valid (by requesting it), and if so, stores the
-#     mapping from shortname to longuri in its dictionary.  The server then
-#     redirects back to the root path.
-#   * A GET request whose path contains a short name.  The server looks up
-#     that short name in its dictionary and redirects to the corresponding
-#     long URI.
-#
-# Your job in this exercise is to finish the server code.
-#
-# Here are the steps you need to complete:
-#
-# 1. Write the CheckURI function, which takes a URI and returns True if a
-#    request to that URI returns a 200 OK, and False otherwise.
-#
-# 2. Write the code inside do_GET that sends a 303 redirect to a known name.
-#
-# 3. Write the code inside do_POST that sends a 400 error if the form fields
-#    are missing.
-#
-# 4. Write the code inside do_POST that sends a 303 redirect to the form
-#    after saving a newly submitted URI.
-#
-# 5. Write the code inside do_POST that sends a 404 error if a URI is not
-#    successfully checked (i.e. if CheckURI returns false).
-#
-# In each step, you'll need to delete a line of code that raises the
-# NotImplementedError exception.  These are there as placeholders in the
-# starter code.
-#
-# After writing each step, restart the server and run test.py to test it.
+
 
 import http.server
 import requests
@@ -77,7 +40,6 @@ def CheckURI(uri, timeout=5):
     False if that GET request returns any other response, or doesn't return
     (i.e. times out).
     '''
-    # 1. Write this function.  Delete the following line.
     try:
         r = requests.get(uri, timeout=timeout)
         return r.status_code == 200
@@ -92,7 +54,6 @@ class Shortener(http.server.BaseHTTPRequestHandler):
 
         if name:
             if name in memory:
-                # 2. Send a 303 redirect to the long URI in memory[name].
                 self.send_response(303)
                 # not completed
                 self.send_header('Location', memory[name])
@@ -122,7 +83,6 @@ class Shortener(http.server.BaseHTTPRequestHandler):
 
         # Check that the user submitted the form fields.
         if "longuri" not in params or "shortname" not in params:
-            # 3. Serve a 400 error with a useful message.
             self.send_response(400)
             self.send_header('Content-type', 'text/plain; charset=utf-8')
             self.end_headers()
@@ -134,17 +94,12 @@ class Shortener(http.server.BaseHTTPRequestHandler):
         if CheckURI(longuri):
             # This URI is good!  Remember it under the specified name.
             memory[shortname] = longuri
-
-            # 4. Serve a redirect to the root page (the form).
             self.send_response(303)
             self.send_header('Location', '/')
             self.end_headers()
 
         else:
             # Didn't successfully fetch the long URI.
-
-            # 5. Send a 404 error with a useful message.
-            #    Delete the following line.
             self.send_response(404)
             self.send_header('Content-type', 'text/plain; charset=utf-8')
             self.end_headers()
