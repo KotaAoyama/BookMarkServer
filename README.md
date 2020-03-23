@@ -18,5 +18,5 @@ Long URL: https://chart.apis.google.com/chart?chs=500x500&chma=0,0,100,100&cht=p
 Short name: chart
 
 2.
-https://aoyama-bookmark-server.herokuapp.com/short
+https://aoyama-bookmark-server.herokuapp.com/chart
 ```
