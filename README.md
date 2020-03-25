@@ -3,9 +3,6 @@
 URL: https://aoyama-bookmark-server.herokuapp.com/
 
 
-![Screen Shot 2020-03-23 at 18 15 02](https://user-images.githubusercontent.com/16607351/77313194-ba5cbe80-6d46-11ea-8046-81f5350b0052.png)
-
-
 ## Instruction
 You can save URL as a short name.
 #### 1. Fill in "Long URL" and "Short name" and click save button. 
